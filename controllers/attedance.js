@@ -87,11 +87,11 @@ const updateAttendancebyid = async (req, res, next) => {
 
 const updateAttendancebydateandsabha = async (req, res, next) => {
   try {
-    const { sabha, sabhadate}= req.body;
+    const { sabha, sabhadate } = req.body;
     if (sabha || sabhadate) {
       const sabhadateis = new Date(sabhadate);
       const updateattendance = await Attendance.updateOne(
-        { sabha: sabha, sabhadate:sabhadateis},
+        { sabha: sabha, sabhadate: sabhadateis },
         { $set: req.body }
       );
       console.log(updateattendance);
@@ -100,7 +100,9 @@ const updateAttendancebydateandsabha = async (req, res, next) => {
         updateattendance,
       });
     } else {
-      res.status(400).json({ message: "please provide correct sabha and sabhadate" });
+      res
+        .status(400)
+        .json({ message: "please provide correct sabha and sabhadate" });
     }
   } catch (error) {
     throw error.message;
@@ -131,5 +133,5 @@ module.exports = {
   getAttendance,
   updateAttendancebyid,
   deleteAttendance,
-  updateAttendancebydateandsabha
+  updateAttendancebydateandsabha,
 };
