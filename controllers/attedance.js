@@ -63,7 +63,7 @@ const getAttendance = async (req, res, next) => {
   }
 };
 
-const updateAttendance = async (req, res, next) => {
+const updateAttendancebyid = async (req, res, next) => {
   try {
     const id = req.params.id;
     if (mongoose.Types.ObjectId.isValid(id)) {
@@ -79,6 +79,30 @@ const updateAttendance = async (req, res, next) => {
       });
     } else {
       res.status(400).json({ message: "please provide correct ID" });
+    }
+  } catch (error) {
+    throw error.message;
+  }
+};
+
+const updateAttendancebydateandsabha = async (req, res, next) => {
+  try {
+    const { sabha, sabhadate } = req.body;
+    if (sabha || sabhadate) {
+      const sabhadateis = new Date(sabhadate);
+      const updateattendance = await Attendance.updateOne(
+        { sabha: sabha, sabhadate: sabhadateis },
+        { $set: req.body }
+      );
+      console.log(updateattendance);
+      res.status(200).json({
+        message: "Please find your updated attedance",
+        updateattendance,
+      });
+    } else {
+      res
+        .status(400)
+        .json({ message: "please provide correct sabha and sabhadate" });
     }
   } catch (error) {
     throw error.message;
@@ -107,6 +131,8 @@ module.exports = {
   // getAllAttendance,
   createAttendance,
   getAttendance,
-  updateAttendance,
+  updateAttendancebyid,
+  updateAttendancebydateandsabha,
   deleteAttendance,
+  
 };
