@@ -132,6 +132,7 @@ module.exports = {
   createAttendance,
   getAttendance,
   updateAttendancebyid,
-  deleteAttendance,
   updateAttendancebydateandsabha,
+  deleteAttendance,
+  
 };
