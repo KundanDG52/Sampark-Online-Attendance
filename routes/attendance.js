@@ -8,7 +8,7 @@ const {
   deleteAttendance,
 } = require("../controllers/attedance");
 
-router.get("/", getAttendance);
+router.get("/search", getAttendance);
 router.post("/newattedance", createAttendance);
 router.patch("/:id", updateAttendance);
 router.delete("/:id", deleteAttendance);

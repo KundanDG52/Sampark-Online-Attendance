@@ -43,21 +43,16 @@ const createAttendance = async (req, res, next) => {
 
 const getAttendance = async (req, res, next) => {
   try {
-    const { id, checksabhadate } = req.query;
-    const date = new Date(checksabhadate).toISOString();
-
-    const sabhaattedance = await Attendance.find(
+    const { id, sabhadate } = req.query;
+    const date = new Date(sabhadate); // here we covert string date to Date formate saved in DB.//
+    const sabhaattedance = await Attendance.findOne(
       {
         sabha: id,
-        sabhadate: { $lte: new Date(date) },
+        sabhadate: date,
       },
-      { sabhadate: 1, _id: 0 }
+      { sabhadate: 1, _id: 0, attendees: 1, nonattendees: 1 }
     );
-    console.log("sabhaattedance", sabhaattedance);
-    const [sabhakadate] = sabhaattedance;
-    const { sabhadate } = sabhakadate;
-    const [attendance] = sabhaattedance;
-    const { attendees, nonattendees } = attendance;
+    const { attendees, nonattendees } = sabhaattedance;
     res.status(200).json({
       message: "Please find your attedance of attendees",
       attendees,
@@ -71,9 +66,20 @@ const getAttendance = async (req, res, next) => {
 const updateAttendance = async (req, res, next) => {
   try {
     const id = req.params.id;
-    const updateattendance = await res
-      .status(200)
-      .json({ message: "Please find your updated attedance" });
+    if (mongoose.Types.ObjectId.isValid(id)) {
+      //for checking id provided by the user is valid or not//
+      const updateattendance = await Attendance.updateOne(
+        { _id: id },
+        { $set: req.body }
+      );
+      console.log(updateattendance);
+      res.status(200).json({
+        message: "Please find your updated attedance",
+        updateattendance,
+      });
+    } else {
+      res.status(400).json({ message: "please provide correct ID" });
+    }
   } catch (error) {
     throw error.message;
   }
@@ -81,9 +87,17 @@ const updateAttendance = async (req, res, next) => {
 
 const deleteAttendance = async (req, res, next) => {
   try {
-    res
-      .status(200)
-      .json({ message: "Your attendance was deleted succesfully" });
+    const id = req.params.id;
+    if (mongoose.Types.ObjectId.isValid(id)) {
+      //for checking id provided by the user is valid or not//
+      const deleteattendance = await Attendance.deleteOne({ _id: id });
+      console.log(deleteattendance);
+      res.status(200).json({
+        message: "Attendance was deleted succesfully",
+      });
+    } else {
+      res.status(400).json({ message: "please provide correct ID" });
+    }
   } catch (error) {
     throw error.message;
   }
