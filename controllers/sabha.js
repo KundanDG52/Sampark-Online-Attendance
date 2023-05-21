@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const Sabha = require("../models/sabha");
 const Bhulku = require("../models/bhulku");
 
+//To fetch details of all sabha in database
 const getsabhas = async (req, res, next) => {
   try {
     const sabhadetails = await Sabha.find({});
@@ -13,6 +14,7 @@ const getsabhas = async (req, res, next) => {
   }
 };
 
+//To create new sabha in database
 const createsabha = async (req, res, next) => {
   try {
     const { sabha_name, sabha_type, sabha_location, sabha_leader } = req.body;
@@ -37,6 +39,7 @@ const createsabha = async (req, res, next) => {
   }
 };
 
+
 const getsabha = async (req, res, next) => {
   try {
     res.status(200).json({ message: "Please find your sabha" });
@@ -45,6 +48,7 @@ const getsabha = async (req, res, next) => {
   }
 };
 
+//To update sabha details by thier unique id
 const updatesabha = async (req, res, next) => {
   try {
     res.status(200).json({ message: "Please find your updated sabha" });
@@ -53,6 +57,8 @@ const updatesabha = async (req, res, next) => {
   }
 };
 
+
+//To delete sabha and thier details by thier unique id
 const deletesabha = async (req, res, next) => {
   try {
     res.status(200).json({ message: "Your sabha was deleted succesfully" });

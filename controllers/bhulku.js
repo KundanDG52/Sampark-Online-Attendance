@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Bhulku = require("../models/bhulku");
 
+//To fetch details of all bhulkus
 const getbhulkus = async (req, res, next) => {
   try {
     const bhulkudetails = await Bhulku.find({});
@@ -10,6 +11,8 @@ const getbhulkus = async (req, res, next) => {
   }
 };
 
+
+//To fetch details of bhulku
 const getbhulku = async (req, res, next) => {
     try {
         const id = req.params.id;
@@ -20,6 +23,7 @@ const getbhulku = async (req, res, next) => {
     }
   };
 
+  //To add new bhulku in database
 const createbhulku = async (req, res, next) => {
   try {
     const { First_Name, Address, Mobile, Gender } = req.body;
@@ -36,6 +40,7 @@ const createbhulku = async (req, res, next) => {
         Address,
         Mobile,
         Gender,
+        Date_Of_Birth : req.body.Date_Of_Birth
       });
       console.log(bhulku);
       res
@@ -47,6 +52,7 @@ const createbhulku = async (req, res, next) => {
   }
 };
 
+//To update details bhulku by thier unique id
 const updatebhulku = async (req, res, next) => {
   try {
     const id = req.params.id;
@@ -63,6 +69,7 @@ const updatebhulku = async (req, res, next) => {
   } catch (error) {}
 };
 
+//To delete bhulku by their unique id
 const deletebhulku = async (req, res, next) => {
   try {
     const id = req.params.id;
@@ -79,6 +86,7 @@ const deletebhulku = async (req, res, next) => {
     throw error.message;
   }
 };
+
 module.exports = {
   getbhulkus,
   createbhulku,

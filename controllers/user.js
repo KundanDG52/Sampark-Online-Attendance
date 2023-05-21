@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 const bhulku = require("../models/bhulku");
 require("dotenv").config();
 
+//signup the new user
 const createuser = async (req, res, next) => {
   try {
     const { username, email, password } = req.body;
@@ -34,6 +35,8 @@ const createuser = async (req, res, next) => {
   }
 };
 
+
+//login the existing user with token generation
 const loginuser = async (req, res, next) => {
   try {
     const { username, password } = await req.body;
@@ -66,6 +69,7 @@ const loginuser = async (req, res, next) => {
   }
 };
 
+//To fetch all users in database
 const getusers = async (req, res, next) => {
   try {
     res.status(200).json({ message: "please get your all register users" });
@@ -74,6 +78,7 @@ const getusers = async (req, res, next) => {
   }
 };
 
+//To fetch single user by thier unique id
 const getuser = async (req, res, next) => {
   try {
     res.status(200).json({ message: "Please get your user" });
@@ -82,6 +87,7 @@ const getuser = async (req, res, next) => {
   }
 };
 
+//To delete single user by thier unique id
 const deleteuser = async (req, res, next) => {
   try {
     const id = req.params.id;

@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Attendance = require("../models/attendance");
+const sabha = require("../models/sabha");
 
 // const getAllAttendance = async (req, res, next) => {
 //   try {
@@ -50,8 +51,8 @@ const getAttendance = async (req, res, next) => {
         sabha: id,
         sabhadate: date,
       },
-      { sabhadate: 1, _id: 0, attendees: 1, nonattendees: 1 }
-    );
+      { sabhadate: 1, _id: 0, attendees: 1, nonattendees: 1, sabha: 1 }
+    ).populate(["attendees", "nonattendees"]); // with use this populate we can fetch all details of id//
     const { attendees, nonattendees } = sabhaattedance;
     res.status(200).json({
       message: "Please find your attedance of attendees",
@@ -134,5 +135,4 @@ module.exports = {
   updateAttendancebyid,
   updateAttendancebydateandsabha,
   deleteAttendance,
-  
 };
