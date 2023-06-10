@@ -11,19 +11,18 @@ const getbhulkus = async (req, res, next) => {
   }
 };
 
-
 //To fetch details of bhulku
 const getbhulku = async (req, res, next) => {
-    try {
-        const id = req.params.id;
-      const bhulkudetails = await Bhulku.find({_id:id});
-      res.status(200).json({ bhulkudetails });
-    } catch (error) {
-      throw error;
-    }
-  };
+  try {
+    const id = req.params.id;
+    const bhulkudetails = await Bhulku.find({ _id: id });
+    res.status(200).json({ bhulkudetails });
+  } catch (error) {
+    throw error;
+  }
+};
 
-  //To add new bhulku in database
+//To add new bhulku in database
 const createbhulku = async (req, res, next) => {
   try {
     const { First_Name, Address, Mobile, Gender } = req.body;
@@ -40,7 +39,7 @@ const createbhulku = async (req, res, next) => {
         Address,
         Mobile,
         Gender,
-        Date_Of_Birth : req.body.Date_Of_Birth
+        Date_Of_Birth: req.body.Date_Of_Birth,
       });
       console.log(bhulku);
       res
@@ -92,5 +91,5 @@ module.exports = {
   createbhulku,
   updatebhulku,
   deletebhulku,
-  getbhulku
+  getbhulku,
 };

@@ -33,8 +33,9 @@ const bydate = async (req, res, next) => {
 //To get birthday by passing month
 
 const bymonth = async (req, res, next) => {
+  console.log(req.query.date); //in postman dont leave space while enter pass the query//
   const date = new Date(req.query.date);
-  const monthToday = date.getMonth() + 1;
+  const month = date.getMonth() + 1;   // try this by moment//
 
   const fetchbhulku = await Bhulku.aggregate([
     {
@@ -45,7 +46,9 @@ const bymonth = async (req, res, next) => {
         mobile: "$Mobile",
       },
     },
-   { $match: { month: monthToday }, }
+    {
+      $match: { month: month },
+    },
   ]);
   res
     .status(200)
@@ -70,13 +73,15 @@ const byrange = async (req, res, next) => {
         address: "$Address",
         mobile: "$Mobile",
         dateOfbirth: "$Date_Of_Birth",
-      }, },
+      },
+    },
 
-{      $match: {
+    {
+      $match: {
         month: { $gte: frommonth, $lte: tomonth },
         day: { $gte: fromday, $lte: today },
       },
-   }
+    },
   ]);
 
   res.status(200).json({
