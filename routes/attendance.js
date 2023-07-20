@@ -1,5 +1,7 @@
 const express = require("express");
 const router = express.Router();
+const auth = require("../middleware/checkForAdmin");
+const adminauth = require("../middleware/checkForAdmin");
 
 const {
   createAttendance,
@@ -9,10 +11,10 @@ const {
   updateAttendancebydateandsabha
 } = require("../controllers/attedance");
 
-router.get("/search", getAttendance);
-router.post("/newattedance", createAttendance);
-router.patch("/:id", updateAttendancebyid);
-router.patch("/",updateAttendancebydateandsabha);
-router.delete("/:id", deleteAttendance);
+router.get("/search",auth, getAttendance);
+router.post("/newattedance",auth, createAttendance);
+router.patch("/:id",adminauth, updateAttendancebyid);
+router.patch("/",adminauth,updateAttendancebydateandsabha);
+router.delete("/:id",adminauth, deleteAttendance);
 
 module.exports = router;

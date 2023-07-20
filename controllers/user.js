@@ -1,14 +1,15 @@
 const mongoose = require("mongoose");
 const User = require("../models/user");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt"); //it is use for password hashing//
+const jwt = require("jsonwebtoken"); // it is use for token generation//
 const bhulku = require("../models/bhulku");
-require("dotenv").config();
+require("dotenv").config(); // extension to use dotenv//
 
 //signup the new user
 const createuser = async (req, res, next) => {
+  console.log(req.body);
   try {
-    const { username, email, password } = req.body;
+    const { username, email, password } = req.body; //destructring of object data//
     if (!username || !email || !password) {
       res.status(400);
       throw new Error("All field are mandatory");
@@ -21,12 +22,14 @@ const createuser = async (req, res, next) => {
         const hashpassword = await bcrypt.hash(password, 10);
         console.log("my hashed password is", hashpassword);
 
-        const newuser = User.create({
+        const newuser = await User.create({
           username,
           email,
           password: hashpassword,
+          user_type: req.body.user_type,
           //   _id: new mongoose.Types.ObjectId(),
         });
+        console.log(newuser);
       }
     }
     res.status(200).json({ message: "user was created" });
@@ -34,7 +37,6 @@ const createuser = async (req, res, next) => {
     throw error.message;
   }
 };
-
 
 //login the existing user with token generation
 const loginuser = async (req, res, next) => {
@@ -44,7 +46,7 @@ const loginuser = async (req, res, next) => {
       res.status(400);
       throw new Error("Please provide username and password");
     } else {
-      const checkbhulku = await User.findOne({ username: username });
+      const checkbhulku = await bhulku.findOne({ username: username });
       if (
         checkbhulku &&
         (await bcrypt.compare(password, checkbhulku.password)) //first password is plain text password//
@@ -53,6 +55,8 @@ const loginuser = async (req, res, next) => {
           {
             user: {
               email: checkbhulku.email,
+              username: checkbhulku.username,
+              user_type: checkbhulku.user_type,  //flag//
             },
           },
           process.env.PRIVATEKEY,
@@ -100,4 +104,36 @@ const deleteuser = async (req, res, next) => {
   }
 };
 
-module.exports = { createuser, loginuser, getusers, getuser, deleteuser };
+const newuser = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    console.log(id);
+    let passwordis = req.body.password;
+    const useris = await bhulku.findOne(
+      { _id: id },
+      { email: 1, username: 1, user_type: 1 }
+    );
+    const password = await bcrypt.hash(passwordis, 10);
+    // console.log(typeof password);
+
+    const updatepassword = await bhulku.updateOne(
+      { _id: id },
+      { $set: { password: password, username: req.body.username } }
+    );
+    console.log(updatepassword);
+    res
+      .status(201)
+      .json({ message: "password updated successfully", password });
+  } catch (error) {
+    throw error.message;
+  }
+};
+
+module.exports = {
+  createuser,
+  loginuser,
+  getusers,
+  getuser,
+  deleteuser,
+  newuser,
+};

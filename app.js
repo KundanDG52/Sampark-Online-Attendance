@@ -11,7 +11,7 @@ const app = express();
 //For body Parsing//
 app.use(express.json());
 
-// Routes handlers//
+// Routes //
 const bhulkuroutes = require("./routes/bhulku");
 const attedanceroutes = require("./routes/attendance");
 const userroutes = require("./routes/user");

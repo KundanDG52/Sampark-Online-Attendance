@@ -1,6 +1,9 @@
 const express = require("express");
 const router = express.Router();
 // const  = require("../middleware/validateTokenhandler");
+const adminauth = require("../middleware/checkForAdmin");
+const auth = require("../middleware/validateTokenhandler");
+
 
 //sabha router handlers//
 const {
@@ -12,10 +15,10 @@ const {
 } = require("../controllers/sabha");
 
 //sabha http requests //
-router.get("/", getsabhas);
-router.get("/:id", getsabha);
-router.post("/register", createsabha);
-router.patch("/:id", updatesabha);
-router.delete("/:id", deletesabha);
+router.get("/",auth, getsabhas);
+router.get("/:id",auth, getsabha);
+router.post("/register",adminauth, createsabha);
+router.patch("/:id",adminauth, updatesabha);
+router.delete("/:id",adminauth, deletesabha);
 
 module.exports = router;

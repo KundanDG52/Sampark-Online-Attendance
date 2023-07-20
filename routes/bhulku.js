@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const auth = require("../middleware/validateTokenhandler");
+const auth = require("../middleware/checkForAdmin");
+const adminauth = require("../middleware/checkForAdmin");
+
 
 const {
   getbhulku,
@@ -14,6 +16,6 @@ router.get("/", auth, getbhulkus);
 router.get("/:id", auth, getbhulku);
 router.post("/", auth, createbhulku);
 router.patch("/:id", auth, updatebhulku);
-router.delete("/:id", auth, deletebhulku);
+router.delete("/:id", adminauth, deletebhulku);
 
 module.exports = router;

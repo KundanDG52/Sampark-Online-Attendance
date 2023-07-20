@@ -33,13 +33,20 @@ const createbhulku = async (req, res, next) => {
       res.status(400);
       throw new Error("All Fields are mandatory !");
     } else {
+      const presentbhulku = await Bhulku.find({}, { Member_id: 1 });
+      const memberidis = presentbhulku.length + 1;
       const bhulku = await Bhulku.create({
-        Member_id: 1,
+        Member_id: memberidis,
         First_Name,
         Address,
         Mobile,
         Gender,
         Date_Of_Birth: req.body.Date_Of_Birth,
+        username: req.body.username || "dasnadas",
+        email: req.body.email || "dasnadas@gmail.com",
+        password: req.body.password || "dasnadas123@",
+        user_type: req.body.user_type || "yuvak",
+        createdAt: Date.now(),
       });
       console.log(bhulku);
       res
