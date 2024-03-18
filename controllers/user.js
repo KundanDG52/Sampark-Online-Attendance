@@ -41,22 +41,23 @@ const createuser = async (req, res, next) => {
 //login the existing user with token generation
 const loginuser = async (req, res, next) => {
   try {
-    const { username, password } = await req.body;
+    const { username, password } = req.body;
     if (!username || !password) {
       res.status(400);
       throw new Error("Please provide username and password");
     } else {
-      const checkbhulku = await bhulku.findOne({ username: username });
-      if (
-        checkbhulku &&
-        (await bcrypt.compare(password, checkbhulku.password)) //first password is plain text password//
-      ) {
+      const checkbhulku = await User.findOne({ username: username });
+      const isCorrectPassword = await bcrypt.compare(
+        password,
+        checkbhulku.password
+      );
+      if (checkbhulku && isCorrectPassword) {
         const accesstoken = jwt.sign(
           {
             user: {
               email: checkbhulku.email,
               username: checkbhulku.username,
-              user_type: checkbhulku.user_type,  //flag//
+              user_type: checkbhulku.user_type, //flag//
             },
           },
           process.env.PRIVATEKEY,
@@ -64,12 +65,14 @@ const loginuser = async (req, res, next) => {
         );
         res.status(200).json({ accesstoken });
       } else {
-        res.status(401);
-        throw new Error("Please provide correct username and password");
+        res
+          .status(401)
+          .json({ message: "Please provide correct username and password" });
       }
     }
   } catch (error) {
-    throw error.message;
+    next(error);
+    // throw error.message;
   }
 };
 
@@ -85,7 +88,9 @@ const getusers = async (req, res, next) => {
 //To fetch single user by thier unique id
 const getuser = async (req, res, next) => {
   try {
-    res.status(200).json({ message: "Please get your user" });
+    const id = req.params.id;
+    const userdetails = await User.findOne({ _id: id });
+    res.status(200).json({ userdetails });
   } catch (error) {
     throw error.message;
   }

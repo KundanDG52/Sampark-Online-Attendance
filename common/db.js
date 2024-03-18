@@ -3,7 +3,11 @@ require("dotenv").config();
 
 const connectedDb = async () => {
   try {
-    const connect = await mongoose.connect(process.env.URL);
+    const connect = await mongoose.connect("mongodb://0.0.0.0:27017/", {
+      dbName: "sampark",
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
     console.log(
       "Database connected succesfully",
       connect.connection.host,

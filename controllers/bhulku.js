@@ -15,9 +15,12 @@ const getbhulkus = async (req, res, next) => {
 const getbhulku = async (req, res, next) => {
   try {
     const id = req.params.id;
-    const bhulkudetails = await Bhulku.find({ _id: id });
+    const bhulkudetails = await Bhulku.find({
+      _id: new mongoose.Types.ObjectId(id),
+    });
     res.status(200).json({ bhulkudetails });
   } catch (error) {
+    // next(error);
     throw error;
   }
 };
@@ -54,7 +57,7 @@ const createbhulku = async (req, res, next) => {
         .json({ message: "Bhulku was created succefully", bhulku });
     }
   } catch (error) {
-    throw error;
+    next(error);
   }
 };
 
@@ -72,7 +75,9 @@ const updatebhulku = async (req, res, next) => {
     } else {
       res.status(404).json({ message: "bhulku is not available in database" });
     }
-  } catch (error) {}
+  } catch (error) {
+    next(error);
+  }
 };
 
 //To delete bhulku by their unique id
@@ -89,7 +94,7 @@ const deletebhulku = async (req, res, next) => {
       res.status(404).json({ message: "bhulku is not available in database" });
     }
   } catch (error) {
-    throw error.message;
+    next(error);
   }
 };
 

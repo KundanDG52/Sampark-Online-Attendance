@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 const Attendance = require("../models/attendance");
 const sabha = require("../models/sabha");
-
 // const getAllAttendance = async (req, res, next) => {
 //   try {
 //     const allbhulkuattendance = await Attendance.find({});

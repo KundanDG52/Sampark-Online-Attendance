@@ -21,6 +21,8 @@ module.exports = async (req, res, next) => {
     }
     //use of this is to call next middleware and stop current request and response cycle//
   } catch (error) {
-    return res.status(401).json({ error, message: "AUTH Failed" });
+    // return res.status(401).json({ error, message: "AUTH Failed" });
+    error.status = 401;
+    next(error);
   }
 };

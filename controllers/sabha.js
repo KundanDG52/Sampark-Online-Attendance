@@ -39,7 +39,6 @@ const createsabha = async (req, res, next) => {
   }
 };
 
-
 const getsabha = async (req, res, next) => {
   try {
     res.status(200).json({ message: "Please find your sabha" });
@@ -56,7 +55,6 @@ const updatesabha = async (req, res, next) => {
     throw error.message;
   }
 };
-
 
 //To delete sabha and thier details by thier unique id
 const deletesabha = async (req, res, next) => {
