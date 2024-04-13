@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const Bhulku = require("../models/bhulku");
+// const Bhulku = require("../models/bhulku");
 
 const sabhaschema = new mongoose.Schema(
   {
