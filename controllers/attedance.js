@@ -1,16 +1,18 @@
 const mongoose = require("mongoose");
 const Attendance = require("../models/attendance");
 const sabha = require("../models/sabha");
-// const getAllAttendance = async (req, res, next) => {
-//   try {
-//     const allbhulkuattendance = await Attendance.find({});
-//     res
-//       .status(200)
-//       .json({ message: "Please find your all attedance", allbhulkuattendance });
-//   } catch (error) {
-//     throw error.message;
-//   }
-// };
+
+const getAllAttendance = async (req, res, next) => {
+  try {
+    const allbhulkuattendance = await Attendance.find({});
+
+    // res
+    //   .status(200)
+    //   .json({ message: "Please find your all attedance", allbhulkuattendance });
+  } catch (error) {
+    next(error);
+  }
+};
 
 const createAttendance = async (req, res, next) => {
   try {
@@ -37,7 +39,7 @@ const createAttendance = async (req, res, next) => {
       });
     }
   } catch (error) {
-    throw error.message;
+    next(error);
   }
 };
 
@@ -45,21 +47,27 @@ const getAttendance = async (req, res, next) => {
   try {
     const { id, sabhadate } = req.query;
     const date = new Date(sabhadate); // here we covert string date to Date formate saved in DB.//
-    const sabhaattedance = await Attendance.findOne(
-      {
-        sabha: id,
-        sabhadate: date,
-      },
-      { sabhadate: 1, _id: 0, attendees: 1, nonattendees: 1, sabha: 1 }
-    ).populate(["attendees", "nonattendees"]); // with use this populate we can fetch all details of id//
-    const { attendees, nonattendees } = sabhaattedance;
-    res.status(200).json({
-      message: "Please find your attedance of attendees",
-      attendees,
-      nonattendees,
-    });
+    const sabhaattedance = await Attendance
+      .find
+      // {
+      //   sabha: id,
+      //   sabhadate: date,
+      // },
+      // { sabhadate: 1, _id: 0, attendees: 1, nonattendees: 1, sabha: 1 }
+      ()
+      .populate(["attendees", "nonattendees"]); // with use this populate we can fetch all details of id//
+    // const { attendees, nonattendees } = sabhaattedance;
+    res
+      .status(200)
+      .json
+      //   {
+      //   message: "Please find your attedance of attendees",
+      //   attendees,
+      //   nonattendees,
+      // }
+      ();
   } catch (error) {
-    throw error.message;
+    next(error);
   }
 };
 
@@ -81,7 +89,7 @@ const updateAttendancebyid = async (req, res, next) => {
       res.status(400).json({ message: "please provide correct ID" });
     }
   } catch (error) {
-    throw error.message;
+    next(error);
   }
 };
 
@@ -105,7 +113,7 @@ const updateAttendancebydateandsabha = async (req, res, next) => {
         .json({ message: "please provide correct sabha and sabhadate" });
     }
   } catch (error) {
-    throw error.message;
+    next(error);
   }
 };
 
@@ -123,7 +131,7 @@ const deleteAttendance = async (req, res, next) => {
       res.status(400).json({ message: "please provide correct ID" });
     }
   } catch (error) {
-    throw error.message;
+    next(error);
   }
 };
 

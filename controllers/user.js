@@ -34,7 +34,7 @@ const createuser = async (req, res, next) => {
     }
     res.status(200).json({ message: "user was created" });
   } catch (error) {
-    throw error.message;
+    next(error);
   }
 };
 
@@ -81,7 +81,7 @@ const getusers = async (req, res, next) => {
   try {
     res.status(200).json({ message: "please get your all register users" });
   } catch (error) {
-    throw error.message;
+    next(error);
   }
 };
 
@@ -92,7 +92,7 @@ const getuser = async (req, res, next) => {
     const userdetails = await User.findOne({ _id: id });
     res.status(200).json({ userdetails });
   } catch (error) {
-    throw error.message;
+    next(error);
   }
 };
 
@@ -105,7 +105,7 @@ const deleteuser = async (req, res, next) => {
       res.status(200).json({ message: " user was deleted succesfully" });
     }
   } catch (error) {
-    throw error.message;
+    next(error);
   }
 };
 
@@ -130,7 +130,7 @@ const newuser = async (req, res, next) => {
       .status(201)
       .json({ message: "password updated successfully", password });
   } catch (error) {
-    throw error.message;
+    next(error);
   }
 };
 

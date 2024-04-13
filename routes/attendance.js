@@ -8,13 +8,13 @@ const {
   getAttendance,
   updateAttendancebyid,
   deleteAttendance,
-  updateAttendancebydateandsabha
+  updateAttendancebydateandsabha,
 } = require("../controllers/attedance");
 
-router.get("/search",auth, getAttendance);
-router.post("/newattedance",auth, createAttendance);
-router.patch("/:id",adminauth, updateAttendancebyid);
-router.patch("/",adminauth,updateAttendancebydateandsabha);
-router.delete("/:id",adminauth, deleteAttendance);
+router.get("/search", auth, getAttendance);
+router.post("/newattedance", auth, createAttendance);
+router.patch("/:id", adminauth, updateAttendancebyid);
+router.patch("/", adminauth, updateAttendancebydateandsabha);
+router.delete("/:id", adminauth, deleteAttendance);
 
 module.exports = router;

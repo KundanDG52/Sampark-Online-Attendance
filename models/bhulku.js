@@ -5,8 +5,8 @@ const bhulkuschema = new mongoose.Schema(
   {
     Member_id: { type: String, require: true },
     sabha_id: {
-      type: String,
-      enum: ["Andheri", "vile-parle", "santacruz"],
+      type: mongoose.SchemaTypes.ObjectId,
+      // enum: ["Andheri", "vile-parle", "santacruz"],
       require: true,
     },
     Reference_Name: { type: String, require: true },

@@ -7,7 +7,8 @@ const getbhulkus = async (req, res, next) => {
     const bhulkudetails = await Bhulku.find({});
     res.status(200).json({ bhulkudetails });
   } catch (error) {
-    throw error;
+    // throw error;
+    next(error);
   }
 };
 
@@ -20,8 +21,8 @@ const getbhulku = async (req, res, next) => {
     });
     res.status(200).json({ bhulkudetails });
   } catch (error) {
-    // next(error);
-    throw error;
+    next(error);
+    // throw error;
   }
 };
 
