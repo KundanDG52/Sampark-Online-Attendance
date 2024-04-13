@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Attendance = require("../models/attendance");
-const sabha = require("../models/sabha");
+const Sabha = require("../models/sabha");
+const Bhulku = require("../models/bhulku");
 
 const getAllAttendance = async (req, res, next) => {
   try {
@@ -18,19 +19,30 @@ const getAllAttendance = async (req, res, next) => {
 const createAttendance = async (req, res, next) => {
   try {
     const { sabha, sabhadate } = req.body;
-    const checksabhaattendance = await Attendance.findOne({
-      sabha: sabha,
-      sabhadate: sabhadate,
+    const checkattendance = await Attendance.findOne({
+      : ,
+      date: date,
     });
-    if (checksabhaattendance) {
+    if (checkattendance) {
       res
         .status(400)
-        .json({ message: "Attedance for this sabha is already created" });
+        .json({ message: "Attedance for this  is already created" });
     } else {
 
 
       try {
-        const bhulkoosOfSabha = await Bh
+       
+        const TotalBhulku = await Bhulku.aggregate([{
+          $lookup: {
+            From: 'Sabha',
+            LocalField: ‘sabha_id’,
+            foreignField: ‘_id’,
+            as:sabha_id, 
+          }},{
+           $project:{
+             
+           }
+        }])
       }
         catch (error) {
            next(error);
@@ -40,8 +52,8 @@ const createAttendance = async (req, res, next) => {
 
       
       const bhulkuattendance = await Attendance.create({
-        sabha,
-        sabhadate,
+        ,
+        date,
         attendees: req.body.attendees,
         nonattendees: req.body.nonattendees,
       });
@@ -58,18 +70,18 @@ const createAttendance = async (req, res, next) => {
 
 const getAttendance = async (req, res, next) => {
   try {
-    const { id, sabhadate } = req.query;
-    const date = new Date(sabhadate); // here we covert string date to Date formate saved in DB.//
-    const sabhaattedance = await Attendance
+    const { id, date } = req.query;
+    const date = new Date(date); // here we covert string date to Date formate saved in DB.//
+    const attedance = await Attendance
       .find
       // {
-      //   sabha: id,
-      //   sabhadate: date,
+      //   : id,
+      //   date: date,
       // },
-      // { sabhadate: 1, _id: 0, attendees: 1, nonattendees: 1, sabha: 1 }
+      // { date: 1, _id: 0, attendees: 1, nonattendees: 1, : 1 }
       ()
       .populate(["attendees", "nonattendees"]); // with use this populate we can fetch all details of id//
-    // const { attendees, nonattendees } = sabhaattedance;
+    // const { attendees, nonattendees } = attedance;
     res
       .status(200)
       .json
@@ -106,13 +118,13 @@ const updateAttendancebyid = async (req, res, next) => {
   }
 };
 
-const updateAttendancebydateandsabha = async (req, res, next) => {
+const updateAttendancebydateand = async (req, res, next) => {
   try {
-    const { sabha, sabhadate } = req.body;
-    if (sabha || sabhadate) {
-      const sabhadateis = new Date(sabhadate);
+    const { , date } = req.body;
+    if ( || date) {
+      const dateis = new Date(date);
       const updateattendance = await Attendance.updateOne(
-        { sabha: sabha, sabhadate: sabhadateis },
+        { : , date: sabhadateis },
         { $set: req.body }
       );
       console.log(updateattendance);
