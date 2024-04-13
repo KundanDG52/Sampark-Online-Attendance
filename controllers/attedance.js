@@ -30,23 +30,23 @@ const createAttendance = async (req, res, next) => {
     } else {
 
 
-      try {
+  //     try {
        
-        const TotalBhulku = await Bhulku.aggregate([{
-          $lookup: {
-            From: 'Sabha',
-            LocalField: ‘sabha_id’,
-            foreignField: ‘_id’,
-            as:sabha_id, 
-          }},{
-           $project:{
+  //       const TotalBhulku = await Bhulku.aggregate([{
+  //         $lookup: {
+  //           From: 'Sabha',
+  //           LocalField: ‘sabha_id’,
+  //           foreignField: ‘_id’,
+  //           as:sabha_id, 
+  //         }},{
+  //          $project:{
              
-           }
-        }])
-      }
-        catch (error) {
-           next(error);
-  }
+  //          }
+  //       }])
+  //     }
+  //       catch (error) {
+  //          next(error);
+  // }
         
       
 
