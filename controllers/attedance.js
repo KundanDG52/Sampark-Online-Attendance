@@ -6,6 +6,7 @@ const getAllAttendance = async (req, res, next) => {
   try {
     const allbhulkuattendance = await Attendance.find({});
 
+    
     // res
     //   .status(200)
     //   .json({ message: "Please find your all attedance", allbhulkuattendance });
@@ -26,6 +27,18 @@ const createAttendance = async (req, res, next) => {
         .status(400)
         .json({ message: "Attedance for this sabha is already created" });
     } else {
+
+
+      try {
+        const bhulkoosOfSabha = await Bh
+      }
+        catch (error) {
+           next(error);
+  }
+        
+      
+
+      
       const bhulkuattendance = await Attendance.create({
         sabha,
         sabhadate,
